@@ -1,0 +1,18 @@
+# Build output and local runtime data
+/target/
+/data/
+*.class
+*.log
+
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editor and macOS files
+.DS_Store
+.idea/
+.vscode/
+*.iml
