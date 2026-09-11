@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info: {title: Agentic URL Shortener, version: 1.1.0-local}
+paths:
+  /api/urls:
+    post:
+      summary: Create or idempotently replay a short URL
+      parameters: [{in: header, name: X-Api-Key, required: true, schema: {type: string}}, {in: header, name: Idempotency-Key, schema: {type: string}}, {in: header, name: X-Request-Id, schema: {type: string}}]
+      requestBody: {required: true, content: {application/json: {schema: {type: object, required: [url], properties: {url: {type: string, format: uri}}}}}}
+      responses: {'201': {description: Created}, '400': {description: Policy or validation failure}, '429': {description: Rate limited}}
+  /api/urls/{code}/analytics:
+    get: {summary: Read aggregate redirect count, parameters: [{in: path, name: code, required: true, schema: {type: string}}], responses: {'200': {description: Analytics}, '404': {description: Unknown code}}}
+  /workflow/release:
+    post:
+      summary: Execute release only with local authenticated human approval
+      parameters: [{in: header, name: X-Api-Key, required: true, schema: {type: string}}, {in: header, name: X-Approval-Token, required: true, schema: {type: string}}]
+      responses: {'200': {description: Approved}, '403': {description: Approval rejected}}
